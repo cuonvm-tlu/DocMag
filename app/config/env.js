@@ -1,9 +1,9 @@
 const env = {
-  database: 'testdb',
+  database: 'DocMag',
   username: 'root',
-  password: 'root',
+  password: 'password',
   host: 'localhost',
-  port: '3307',
+  port: '3306',
   dialect: 'mysql',
   pool: {
 	  max: 5,
