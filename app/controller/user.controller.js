@@ -3,6 +3,8 @@ const User = db.user;
 const Employee = db.Employee  
 const {Sequelize, Op} = require('sequelize');
 const bcrypt = require("bcryptjs");
+const Group = db.group;
+const Right = db.right 
 
 function isExisted (username) {
     return User.count({ where: { username: username } })
@@ -73,6 +75,10 @@ exports.delete = (req, res) => {
 
 exports.signin = (req, res) => {
     User.findOne({
+      include: {
+        model: Group,
+        include: Right
+      },
       where: {
         username: req.body.username
       }
@@ -94,11 +100,19 @@ exports.signin = (req, res) => {
             message: "Invalid Password!"
           });
         }
-          res.status(200).send({
-            username: user.username,
-            password: user.password,
-            groupId: user.groupId,
-          });
+          // Group.findAll({ 
+          //   include: Right,
+          //   where: {
+          //     Id: user.groupId
+          //   }
+          //   }).then(group => {
+          //     console.log(group)
+          //     console.log(user)
+          //     res.status(200).send(group);
+          //     res.status(200).send(user);
+          // });
+          res.status(200).send(user);
+      
       })
       .catch(err => {
         res.status(500).send({ message: err.message });

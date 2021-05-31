@@ -4,7 +4,8 @@ const Right = db.right;
 exports.create = async (req, res) => {	
     await Right.create({ 
         id: req.body.id,
-        name: req.body.name  
+        name: req.body.name,
+        url:  req.body.url 
         }).then(right => {	
 
             // Send created customer to client
@@ -38,7 +39,8 @@ exports.delete = (req, res) => {
 exports.update = (req, res) => {
 	const id = req.params.id;
 	Right.update( { 
-        name: req.body.name 
+        name: req.body.name,
+        url:  req.body.url  
 		 }, { where: {id: req.params.id} }).then(() => {
             res.status(200).send("updated successfully a right with username = " + id);
         });
