@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
 	},
 	name: {
 		type: Sequelize.ENUM,
-		values: ['Quản lý người tài khoản', 'Quản lý phòng ban', 'Quản lý nhân viên', 'Xem danh sách phòng ban', 'Xem danh sách người dùng', 'Xem danh sách nhân viên', 'Quản lý quy trình văn bản', 'Quản lý văn bản'],
+		values: ['Quản lý người tài khoản', 'Quản lý phòng ban', 'Quản lý nhân viên', 'Xem danh sách phòng ban', 'Xem danh sách người dùng', 'Xem danh sách nhân viên', 'Quản lý văn bản phân công công việc', 'Xem văn bản phân công công việc', 'Quản lý văn bản đến', 'Xem văn bản đến', 'Quản lý văn bản gửi lên cấp trên', 'Xem văn bản gửi lên cấp trên'],
 		},
 	url: {
 		type: Sequelize.ENUM,

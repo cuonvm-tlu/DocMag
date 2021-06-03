@@ -28,10 +28,10 @@ db.right = require('../model/right.model.js')(sequelize, Sequelize);
 db.group = require('../model/group.model.js')(sequelize, Sequelize);
 db.document = require('../model/document.model.js')(sequelize, Sequelize);
 db.role = require('../model/role.model.js')(sequelize, Sequelize);
-db.team = require('../model/team.model.js')(sequelize, Sequelize);
-db.EmpTeamRole = require('../model/emp-team-role.model.js')(sequelize, Sequelize);
+// db.team = require('../model/team.model.js')(sequelize, Sequelize);
+// db.EmpTeamRole = require('../model/emp-team-role.model.js')(sequelize, Sequelize);
 db.groupRight = require('../model/group-right.model.js')(sequelize, Sequelize);
-db.proccess = require('../model/proccess.model.js')(sequelize, Sequelize); 
+// db.proccess = require('../model/proccess.model.js')(sequelize, Sequelize); 
 db.assigned = require('../model/assigned.model.js')(sequelize, Sequelize); 
 db.document = require('../model/document.model.js')(sequelize, Sequelize);
 //association
@@ -45,13 +45,14 @@ db.group.hasOne(db.user);
 
 
 
-db.employees.belongsToMany(db.team, { through: db.EmpTeamRole });
-db.team.belongsToMany(db.employees, { through: db.EmpTeamRole });
-db.employees.belongsToMany(db.role, { through: db.EmpTeamRole});
-db.team.belongsToMany(db.role, { through: db.EmpTeamRole});
+// db.employees.belongsToMany(db.team, { through: db.EmpTeamRole });
+// db.team.belongsToMany(db.employees, { through: db.EmpTeamRole });
+// db.employees.belongsToMany(db.role, { through: db.EmpTeamRole});
+// db.team.belongsToMany(db.role, { through: db.EmpTeamRole});
 
-db.employees.hasMany(db.proccess, { as: "proccess" });
-db.proccess.hasMany(db.document, { as: "proccess" });
+db.employees.hasMany(db.document, { as: "documents" });
+db.departments.hasMany(db.document, { as: "documents" });
+// db.proccess.hasMany(db.document, { as: "proccess" });
 
 db.employees.belongsToMany(db.role, { through: db.assigned });
 db.role.belongsToMany(db.employees, { through: db.assigned });
