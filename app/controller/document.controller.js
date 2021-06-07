@@ -2,21 +2,28 @@ const fs = require("fs");
 const db = require('../config/db.config.js');
 const Document = db.document;
 const Assigned = db.assigned;
-const { Op } = require("sequelize");
+const Employee = db.employees;
+const Role = db.role;
+const Sender = db.sender;
+const Sequelize = db.sequelize
+const { QueryTypes } = require('sequelize');
 
 // --------------------------- Xu ly van ban thong bao ------------------------------//
 
 // Tạo mới
-exports.createVBTB = async (req, res) => {	
+exports.create = async (req, res) => {	
     await Document.create({  
         id: req.body.id,
         name: req.body.name,
         description: req.body.description,
         code: req.body.code, 
         status: req.body.status,
-        // data: req.file.buffer, 
+		signature: req.body.signature,
+		date: req.body.date,
         departmentId: req.body.departmentId,
-        type:  req.body.type
+        employeeId: req.body.employeeId,
+        docTypeId:  req.body.docTypeId,
+        senderId:  req.body.senderId,
         }).then(document => {		
             // Send created customer to client
             res.send(document);
@@ -24,9 +31,8 @@ exports.createVBTB = async (req, res) => {
 };
  
 // Hiển thị tất cả
-exports.findAllVBTB = (req, res) => {
+exports.findAll = (req, res) => {
 	Document.findAll({
-	  where: { type: 'VBTB' }
 	}).then(document => {
 	  // Send all customers to Client
 	  res.send(document);
@@ -34,10 +40,9 @@ exports.findAllVBTB = (req, res) => {
 };
 
 // Xoá
-exports.deleteVBTB = (req, res) => {
+exports.delete = (req, res) => {
 	const id = req.params.id;
 	Document.destroy({
-	  where: { id: id }
 	}).then(() => {
 	  res.status(200).send('deleted successfully a Document with id = ' + id);
 	});
@@ -45,23 +50,26 @@ exports.deleteVBTB = (req, res) => {
 
 
 //  Tìm theo ID
-exports.findByIdVBTB = (req, res) => {	
+exports.findById = (req, res) => {	
 	Document.findById(req.params.id).then(document => {
 		res.send(document);
 	})
 };
  
 // Cập nhật
-exports.updateVBTB = (req, res) => {
+exports.update = (req, res) => {
 	const id = req.params.id;
 	Document.update( { 
-      name: req.body.name,
-      description: req.body.description,
-      code: req.body.code, 
-      status: req.body.status,
-      // data: req.file.buffer, 
-      departmentId: req.body.departmentId,
-      type:  req.body.type
+        name: req.body.name,
+        description: req.body.description,
+        code: req.body.code, 
+        status: req.body.status,
+		signature: req.body.signature,
+		date: req.body.date,
+        departmentId: req.body.departmentId,
+        employeeId: req.body.employeeId,
+        docTypeId:  req.body.docTypeId,
+        senderId:  req.body.senderId,
         }, 
 					 { where: {id: req.params.id} }
 				   ).then(() => {
@@ -71,111 +79,23 @@ exports.updateVBTB = (req, res) => {
 };
 
 // Tìm theo bộ phận
-exports.findByDepVBTB = (req, res) => {	
+exports.findByDep = (req, res) => {
 	Document.findAll({
-	  where: { [Op.and]: [
-      { departmentId: req.params.id},
-      { type: 'VBTB' },
-      { status: 'Chấp thuận'}
-    ]}
+		where: {
+			departmentId: req.params.id
+		}
 	}).then(document => {
 	  // Send all customers to Client
 	  res.send(document);
 	});
 };
 
-
-// --------------------------- Xu ly van ban thong bao ------------------------------//
-
-// --------------------------- Xu ly van ban phan cong------------------------------//
-exports.createVBPC = async (req, res) => {	
-  await Document.create({  
-      id: req.body.id,
-      name: req.body.name,
-      description: req.body.description,
-      code: req.body.code, 
-      status: req.body.status,
-      // data: req.file.buffer, 
-      departmentId: req.body.departmentId,
-      type:  req.body.type
-      }).then(document => {		
-          // Send created customer to client
-          res.send(document);
-      });
+// Tìm theo phan cong
+exports.findByAssign = async (req, res) => {
+	const document = await Sequelize.query("SELECT * FROM `assigneds` INNER JOIN `documents` ON `documents`.`id` = `assigneds`.`documentId` INNER JOIN `roles` ON `roles`.`id` = `assigneds`.`roleId`  WHERE `assigneds`.`employeeId` = ?;", {
+		replacements: [req.params.id],
+		type: QueryTypes.SELECT 
+	});
+	
+	res.status(200).json(document)
 };
-
-// Hiển thị tất cả
-exports.findAllVBPC = (req, res) => {
-Document.findAll({
-  where: { type: 'VBPC'}
-}).then(document => {
-  // Send all customers to Client
-  res.send(document);
-});
-};
-
-// Xoá
-exports.deleteVBPC = (req, res) => {
-const id = req.params.id;
-Document.destroy({
-  where: { id: id }
-}).then(() => {
-  res.status(200).send('deleted successfully a Document with id = ' + id);
-});
-};
-
-
-//  Tìm theo ID
-exports.findByIdVBPC = (req, res) => {	
-Document.findById(req.params.id).then(document => {
-  res.send(document);
-})
-};
-
-// Cập nhật
-exports.updateVBPC = (req, res) => {
-const id = req.params.id;
-Document.update( { 
-    name: req.body.name,
-    description: req.body.description,
-    code: req.body.code, 
-    status: req.body.status,
-    // data: req.file.buffer, 
-    departmentId: req.body.departmentId,
-    type:  req.body.type
-      }, 
-         { where: {id: req.params.id} }
-         ).then(() => {
-         res.status(200).send("updated successfully a Document with id = " + id);
-         });
-
-};
-
-// Tìm theo bộ phận
-exports.findByDepVBPC = (req, res) => {	
-Document.findAll({
-  where: { [Op.and]: [
-    { departmentId: req.params.id},
-    { type: 'VBPC' }
-  ]}
-}).then(document => {
-  // Send all customers to Client
-  res.send(document);
-});
-};
-
-// Tìm theo cá nhân được phân công
-
-exports.findByEmpVBPC = (req, res) => {	
-  Assigned.findAll({
-    where: {
-      employeeId: req.params.id
-    },
-    include: Document
-  }).then(document => {
-    // Send all customers to Client
-    res.send(document);
-  });
-  };
-
-// --------------------------- Xu ly van ban phan cong------------------------------//

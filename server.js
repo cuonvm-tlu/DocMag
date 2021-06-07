@@ -51,6 +51,9 @@ require('./app/route/role.route')(app);
 require('./app/route/emp-team-role.route')(app);
 require('./app/route/proccess.route')(app);
 require('./app/route/assigned.route')(app);
+require('./app/route/docType.route')(app);
+require('./app/route/sender.route')(app);
+
 
 // Create a Server
 var server = app.listen(8081, function () {

@@ -15,17 +15,17 @@ module.exports = (sequelize, Sequelize) => {
       description: {
 		type: Sequelize.STRING,
 	  },
+	  signature: {
+		type: Sequelize.STRING,
+	  },
+	  date: {
+		type: Sequelize.STRING,
+	  },
       status: {
 		type: Sequelize.ENUM,
-		values: ['Đang duyệt', 'Tiến hành', 'Chấp thuận', 'Từ chối', 'Đã hoàn thành'],
+		values: ['Đang duyệt', 'Tiến hành', 'Chấp thuận', 'Từ chối', 'Đã hoàn thành', 'Xác nhận hoàn thành'],
       },
-    //   data: {
-    //     type: Sequelize.BLOB("long"),
-    //   },
-	  type: {
-		type: Sequelize.ENUM,
-		values: ['VBTB', 'VBPC', 'VBCT'],
-      },
+
 	});
 	return Document;
 }

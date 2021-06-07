@@ -5,41 +5,24 @@ module.exports = function(app) {
 
 // --------------------------- Xu ly van ban thong bao------------------------------//
     // Create a new Customer
-    app.post('/api/documents/VBTB', documents.createVBTB);
+    app.post('/api/documents/', documents.create);
  
     // Retrieve all Customer
-    app.get('/api/documents/VBTB', documents.findAllVBTB);
+    app.get('/api/documents/', documents.findAll);
  
     // Retrieve a single Customer by Id
-    app.get('/api/documents/VBTB/:id', documents.findByIdVBTB);
+    app.get('/api/documents/:id', documents.findById);
 
-    // 
-    app.get('/api/documents/VBTB/Dep/:id', documents.findByDepVBTB);
+    app.get('/api/documents/Dep/:id', documents.findByDep);
+
+    app.get('/api/documents/Assign/:id', documents.findByAssign);
  
     // // Update a Customer with Id
-    app.put('/api/documents/VBTB/:id', documents.updateVBTB);
+    app.put('/api/documents/:id', documents.update);
  
     // // Delete a Customer with Id
-    app.delete('/api/documents/VBTB/:id', documents.deleteVBTB);
+    app.delete('/api/documents/:id', documents.delete);
 
 // --------------------------- Xu ly van ban thong bao------------------------------//
 
-// --------------------------- Xu ly van ban phan cong------------------------------//
-    app.post('/api/documents/VBPC', documents.createVBPC);
-    
-    // Retrieve all Customer
-    app.get('/api/documents/VBPC', documents.findAllVBPC);
-
-    // Retrieve a single Customer by Id
-    app.get('/api/documents/VBPC/:id', documents.findByIdVBPC);
-
-    // 
-    app.get('/api/documents/VBPC/Dep/:id', documents.findByDepVBPC);
-    app.get('/api/documents/VBPC/Emp/:id', documents.findByEmpVBPC);
-    // // Update a Customer with Id
-    app.put('/api/documents/VBPC/:id', documents.updateVBPC);
-
-    // // Delete a Customer with Id
-    app.delete('/api/documents/VBPC/:id', documents.deleteVBPC);
-// --------------------------- Xu ly van ban phan cong------------------------------//
 }

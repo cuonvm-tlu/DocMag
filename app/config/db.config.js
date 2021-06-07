@@ -34,6 +34,10 @@ db.groupRight = require('../model/group-right.model.js')(sequelize, Sequelize);
 // db.proccess = require('../model/proccess.model.js')(sequelize, Sequelize); 
 db.assigned = require('../model/assigned.model.js')(sequelize, Sequelize); 
 db.document = require('../model/document.model.js')(sequelize, Sequelize);
+db.sender = require('../model/sender.model.js')(sequelize, Sequelize); 
+db.docType = require('../model/docType.model.js')(sequelize, Sequelize);
+
+
 //association
 db.departments.hasMany(db.employees, { as: "employees" });
 db.employees.belongsTo(db.user, {foreignKey: 'username', targetKey: 'username'});
@@ -59,5 +63,7 @@ db.role.belongsToMany(db.employees, { through: db.assigned });
 db.employees.belongsToMany(db.document, { through: db.assigned});
 db.role.belongsToMany(db.document, { through: db.assigned});
 //
+db.sender.hasMany(db.document, { as: "documents" });
+db.docType.hasMany(db.document, { as: "documents" });
 
 module.exports = db;
