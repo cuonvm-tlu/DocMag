@@ -23,6 +23,15 @@ module.exports = function(app) {
     // // Delete a Customer with Id
     app.delete('/api/documents/:id', documents.delete);
 
+    // Thong ke so luong theo loai van ban
+    app.get('/api/countbytype/', documents.toltalByType);
+
+    // Thong ke so luong theo nguoi gui
+    app.get('/api/countbysender/', documents.toltalBySender);
+
+    // Thay doi status theo ID
+    app.put('/api/documents/changestatus/:id', documents.changeStatus);
+
 // --------------------------- Xu ly van ban thong bao------------------------------//
 
 }

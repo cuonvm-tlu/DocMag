@@ -5,6 +5,7 @@ const Assigned = db.assigned;
 const Employee = db.employees;
 const Role = db.role;
 const Sender = db.sender;
+const DocType = db.docType
 const Sequelize = db.sequelize
 const { QueryTypes } = require('sequelize');
 
@@ -71,10 +72,10 @@ exports.update = (req, res) => {
         docTypeId:  req.body.docTypeId,
         senderId:  req.body.senderId,
         }, 
-					 { where: {id: req.params.id} }
-				   ).then(() => {
-					 res.status(200).send("updated successfully a Document with id = " + id);
-				   });
+			{ where: {id: req.params.id} }
+		).then(() => {
+			res.status(200).send("updated successfully a Document with id = " + id);
+		});
 
 };
 
@@ -98,4 +99,61 @@ exports.findByAssign = async (req, res) => {
 	});
 	
 	res.status(200).json(document)
+};
+
+// So luong theo loai van ban
+exports.toltalByType = async (req, res) => {
+	const document = await Sequelize.query("SELECT COUNT(`documents`.`id`) AS NumberOfType, `documents`.`docTypeId` FROM `documents` GROUP BY `documents`.`docTypeId`;", {
+		type: QueryTypes.SELECT 
+	});
+	
+	res.status(200).json(document)
+};
+
+// So luong theo loai van ban
+exports.toltalByType = async (req, res) => {
+	const document = await Sequelize.query("SELECT COUNT(`documents`.`id`) AS NumberOfType, `documents`.`docTypeId` FROM `documents` GROUP BY `documents`.`docTypeId`;", {
+		type: QueryTypes.SELECT 
+	});
+	
+	res.status(200).json(document)
+};
+
+// So luong theo nguoi gui
+exports.toltalBySender = async (req, res) => {
+	const document = await Sequelize.query("SELECT COUNT(`documents`.`id`) AS NumberOfSender, `documents`.`senderId` FROM `documents` GROUP BY `documents`.`senderId`;", {
+		type: QueryTypes.SELECT 
+	});
+	
+	res.status(200).json(document)
+};
+
+// So luong theo phong ban
+exports.toltalBySender = async (req, res) => {
+	const document = await Sequelize.query("SELECT COUNT(`documents`.`id`) AS NumberOfDepartment, `documents`.`departmentId` FROM `documents` GROUP BY `documents`.`departmentId`;", {
+		type: QueryTypes.SELECT 
+	});
+	
+	res.status(200).json(document)
+};
+
+// So luong theo tinh trang
+exports.toltalBySender = async (req, res) => {
+	const document = await Sequelize.query("SELECT COUNT(`documents`.`id`) AS NumberOfStatus, `documents`.`status` FROM `documents` GROUP BY `documents`.`status`;", {
+		type: QueryTypes.SELECT 
+	});
+	
+	res.status(200).json(document)
+};
+
+// Thay doi trang thai theo ID
+exports.changeStatus = async (req, res) => {
+	const id = req.params.id;
+	Document.update( { 
+        status: req.body.status,
+        }, 
+			{ where: {id: req.params.id} }
+		).then(() => {
+			res.status(200).send("updated successfully a Document with id = " + id);
+		});
 };
